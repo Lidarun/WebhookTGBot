@@ -11,14 +11,15 @@ public class City {
     @Column(name = "city_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    String name;
+    String ruName;
+    String enName;
     String country;
     double lat;
     double lon;
 
     @Override
     public String toString() {
-        return "Город: "+ name +
+        return "Город: "+ ruName +
                 "\nСтрана: " + country + '\'' +
                 "\nДолгота: " + lat +
                 "\nШирота: " + lon;

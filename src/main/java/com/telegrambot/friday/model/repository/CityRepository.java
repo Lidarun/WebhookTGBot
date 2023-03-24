@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
-    City getCityByName(String name);
+    City getCityByRuNameOrEnName(String ruName, String enName);
 }

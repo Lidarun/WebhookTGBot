@@ -1,1 +1,5 @@
 2023-03-23 14:53:43 DEBUG CityServiceImpl:42 - Connection resetCity: Kara-Balta
+2023-03-23 21:20:46 DEBUG CityServiceImpl:42 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: /setCity
+2023-03-23 21:20:51 DEBUG CityServiceImpl:42 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: /setCity
+2023-03-23 21:22:18 DEBUG CityServiceImpl:42 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: /setCity
+2023-03-24 16:22:29 DEBUG CityServiceImpl:42 - Missing property in path $['local_names']City: /weather

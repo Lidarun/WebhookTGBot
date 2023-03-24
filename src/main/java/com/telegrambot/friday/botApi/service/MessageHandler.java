@@ -1,8 +1,6 @@
 package com.telegrambot.friday.botApi.service;
 
-import com.telegrambot.friday.model.Weather;
-import com.telegrambot.friday.service.CityService;
-import com.telegrambot.friday.service.WeatherService;
+import com.telegrambot.friday.botApi.state.BotState;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
@@ -13,13 +11,11 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class  MessageHandler {
+    final StateHandler stateHandler;
+    BotState botState;
 
-    WeatherService weatherService;
-    CityService cityService;
-
-    public MessageHandler( WeatherService weatherService, CityService cityService) {
-        this.weatherService = weatherService;
-        this.cityService = cityService;
+    public MessageHandler(StateHandler stateHandler) {
+        this.stateHandler = stateHandler;
     }
 
     public BotApiMethod<?> replyMessage(Message message) {
@@ -29,28 +25,12 @@ public class  MessageHandler {
 
 
         switch (userMessage) {
-            case "/start":
-                sendMessage.setText("Привет, " + message.getChat().getFirstName() + "!");
-                return sendMessage;
-
-            case "/weather":
-                Weather weather = weatherService.getWeatherInfo("London");
-                sendMessage.setText(weather.toString());
-                return sendMessage;
-
-            case "setCity":
-                sendMessage.setText("Введите название вашего города!");
-                return sendMessage;
-
-            case "/nur":
-                sendMessage.setText("Бот написан на языке Java, " +
-                        "с ипользованием фреймворка Spring. Создатель @lidarunium");
-                return sendMessage;
-
-            default:
-                sendMessage.setText("Неизвестная команда!");
-                return sendMessage;
-
+            case "/start" -> botState = BotState.START;
         }
+
+        BotApiMethod<?> msg = stateHandler.replyMessage(botState, message);
+        botState = stateHandler.getBotState();
+        System.out.println(botState);
+        return msg;
     }
 }

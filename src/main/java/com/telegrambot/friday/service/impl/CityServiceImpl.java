@@ -50,7 +50,8 @@ public class CityServiceImpl implements CityService {
         JSONObject object = new JSONObject(jsonCity);
         City city = new City();
 
-        city.setName(JsonPath.read(jsonCity, "$.local_names.ru"));
+        city.setRuName(JsonPath.read(jsonCity, "$.local_names.ru"));
+        city.setRuName(JsonPath.read(jsonCity, "$.local_names.en"));
         city.setCountry(object.getString("country"));
         city.setLat(object.getDouble("lat"));
         city.setLon(object.getDouble("lon"));
@@ -61,6 +62,6 @@ public class CityServiceImpl implements CityService {
 
     //Поиск города по названию из базы
     private City getCityFromDB(String city) {
-        return cityRepository.getCityByName(city);
+        return cityRepository.getCityByRuNameOrEnName(city, city);
     }
 }
