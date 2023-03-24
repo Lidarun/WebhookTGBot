@@ -23,14 +23,17 @@ public class  MessageHandler {
         String userMessage = message.getText();
         sendMessage.setChatId(message.getChatId());
 
-
+        System.out.println(" + " + botState);
         switch (userMessage) {
             case "/start" -> botState = BotState.START;
+            case "/weather" -> botState = BotState.WEATHER;
+            case "/setcity" -> botState = BotState.SET_CITY;
+
+            default -> botState = BotState.COMMAND_NOT_SET;
         }
 
-        BotApiMethod<?> msg = stateHandler.replyMessage(botState, message);
-        botState = stateHandler.getBotState();
-        System.out.println(botState);
-        return msg;
+
+        System.out.println(" - " + botState);
+        return stateHandler.replyMessage(botState, message);
     }
 }

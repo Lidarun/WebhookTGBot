@@ -26,6 +26,7 @@ public class WeatherServiceImpl implements WeatherService {
     @Override
     public Weather getWeatherInfo(String city) {
         City cityInfo = cityService.getCityInfo(city);
+        if (cityInfo == null) return null;
 
         url = url.replace("{lat}", String.valueOf(cityInfo.getLat()));
         url = url.replace("{lon}", String.valueOf(cityInfo.getLon()));

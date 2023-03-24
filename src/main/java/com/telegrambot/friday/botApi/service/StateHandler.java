@@ -1,7 +1,12 @@
 package com.telegrambot.friday.botApi.service;
 
 import com.telegrambot.friday.botApi.state.BotState;
+import com.telegrambot.friday.model.City;
+import com.telegrambot.friday.model.User;
+import com.telegrambot.friday.model.Weather;
+import com.telegrambot.friday.service.CityService;
 import com.telegrambot.friday.service.UserService;
+import com.telegrambot.friday.service.WeatherService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -14,26 +19,67 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StateHandler {
-    UserService userService;
-    BotState botState;
+    final UserService userService;
+    final WeatherService weatherService;
+    final CityService cityService;
 
-    public StateHandler(UserService userService) {
+    public StateHandler(UserService userService, WeatherService weatherService, CityService cityService) {
         this.userService = userService;
+        this.weatherService = weatherService;
+        this.cityService = cityService;
     }
 
     public BotApiMethod<?> replyMessage(BotState botState, Message message) {
         SendMessage sendMessage = new SendMessage();
         String userMessage = message.getText();
-        sendMessage.setChatId(message.getChatId());
+        long chatID = message.getChatId();
+        sendMessage.setChatId(chatID);
 
         switch (botState) {
             case START -> {
                 userService.save(message);
                 sendMessage.setText("Приветствую, " + message.getChat().getFirstName() + "!");
-                botState = BotState.COMMAND_NOT_SET;
+                return sendMessage;
+            }
+            case WEATHER -> {
+                Weather weather = weatherService.getWeatherInfo(userMessage);
+
+                if (weather != null) {
+                    sendMessage.setText(weather.toString());
+                }else {
+                    sendMessage.setText("Установите город! /setcity");
+                }
+
+                return sendMessage;
+            }
+
+            case SET_CITY -> {
+                if (userMessage.equals("/setcity")) {
+                    sendMessage.setText("Введите название города!");
+                    return sendMessage;
+                }
+
+                City city = cityService.getCityInfo(userMessage);
+
+                if (city != null) {
+                    User user = userService.getUserByChatID(chatID);
+                    user.setCity(city);
+                    userService.update(user);
+                    Weather weather = weatherService.getWeatherInfo(city.getEnName());
+                    sendMessage.setText("Город установлен! \nПогода в вашем городе: \n" + weather.toString());
+
+                } else {
+                    sendMessage.setText("Город не найден!");
+                }
+                return sendMessage;
+            }
+
+            case COMMAND_NOT_SET -> {
+                sendMessage.setText("Команда не поддерживается");
                 return sendMessage;
             }
         }
+
         return null;
     }
 }
