@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Data
@@ -16,12 +13,14 @@ import java.sql.Date;
 @Entity(name = "tb_users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
     long chatId;
     String fName;
     String lName;
     String uName;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "city_id")
     City city;
 

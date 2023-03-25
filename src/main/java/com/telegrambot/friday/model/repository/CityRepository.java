@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
     City getCityByRuNameOrEnName(String ruName, String enName);
+
+    City getCityByRuNameContainsIgnoreCaseOrEnNameContainsIgnoreCase(String ruName, String enName);
 }

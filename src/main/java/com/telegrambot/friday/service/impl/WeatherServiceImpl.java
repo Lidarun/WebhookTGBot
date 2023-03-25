@@ -7,31 +7,34 @@ import com.telegrambot.friday.model.City;
 import com.telegrambot.friday.model.Weather;
 import com.telegrambot.friday.service.CityService;
 import com.telegrambot.friday.service.WeatherService;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
 
 @Slf4j
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class WeatherServiceImpl implements WeatherService {
-    private final CityService cityService;
-    private String url = "https://api.openweathermap.org/data/2.5/weather?" +
-            "lat={lat}&lon={lon}&appid={API key}&lang={lang}";
-
+    final CityService cityService;
+    @Value("${openapi.weather}")
+    String url;
+    @Value("${openapi.token}")
+    String token;
     public WeatherServiceImpl(CityService cityService) {
         this.cityService = cityService;
     }
 
     @Override
-    public Weather getWeatherInfo(String city) {
-        City cityInfo = cityService.getCityInfo(city);
-        if (cityInfo == null) return null;
-
-        url = url.replace("{lat}", String.valueOf(cityInfo.getLat()));
-        url = url.replace("{lon}", String.valueOf(cityInfo.getLon()));
-        url = url.replace("{API key}",
-                "097e7a36c584cdb3b0001619654e57d1");
+    public Weather getWeatherInfo(City city) {
+        url = url.replace("{lat}", String.valueOf(city.getLat()));
+        url = url.replace("{lon}", String.valueOf(city.getLon()));
+        url = url.replace("{API key}", token);
         url = url.replace("{lang}", "ru");
 
         try {
@@ -39,9 +42,10 @@ public class WeatherServiceImpl implements WeatherService {
             String json = weatherInfo.toString();
             return getWeatherFromJson(json);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.debug(e.getMessage() + "City: " + city);
         }
+
         return null;
     }
 

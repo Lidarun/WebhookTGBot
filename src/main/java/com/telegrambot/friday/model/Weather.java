@@ -25,7 +25,7 @@ public class Weather {
 
         weatherMain = weatherMain.substring(0, 1).toUpperCase() + weatherMain.substring(1);
 
-        return "Погода:  " + date +
+        return "Погода на:  " + date +
                 "\nГород:  " + city + "("+country+")"+
                 "\nСегодня:  " + weatherMain  +
                 "\nТемпература:  " + String.format("%.1f",(temp - 273.15)) + "°C" +

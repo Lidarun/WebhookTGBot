@@ -6,18 +6,22 @@ import com.jayway.jsonpath.JsonPath;
 import com.telegrambot.friday.model.City;
 import com.telegrambot.friday.model.repository.CityRepository;
 import com.telegrambot.friday.service.CityService;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
 
 @Log4j
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CityServiceImpl implements CityService {
-    private final CityRepository cityRepository;
-    private String urlAddress = "https://api.openweathermap.org/geo/1.0/direct?q={city}" +
-            "&limit=5&appid=097e7a36c584cdb3b0001619654e57d1";
+    final CityRepository cityRepository;
+    @Value("${openapi.city}")
+    String urlAddress;
 
     public CityServiceImpl(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
@@ -27,19 +31,21 @@ public class CityServiceImpl implements CityService {
     @Override//Поиск города
     public City getCityInfo(String cityName) {
         City city = getCityFromDB(cityName);
-        if(city != null) return city;
 
-        urlAddress = urlAddress.replace("{city}", cityName);
+        if(city == null) {
+            urlAddress = urlAddress.replace("{city}", cityName);
 
-        try {
-            JsonNode cityInfo = new ObjectMapper().readTree(new URL(urlAddress));
-            String json = cityInfo.toString();
-            json = json.substring(1, json.length() - 1);
-            city = getCityFromJson(json);
-            return city;
+            try {
+                JsonNode cityInfo = new ObjectMapper().readTree(new URL(urlAddress));
+                String json = cityInfo.toString();
+                json = json.substring(1, json.length() - 1);
+                city = getCityFromJson(json);
 
-        } catch(Exception e) {
-            log.debug(e.getMessage() + "City: " + cityName);
+                return city;
+
+            } catch (Exception e) {
+                log.debug(e.getMessage() + "City: " + cityName);
+            }
         }
 
         return null;
@@ -51,7 +57,7 @@ public class CityServiceImpl implements CityService {
         City city = new City();
 
         city.setRuName(JsonPath.read(jsonCity, "$.local_names.ru"));
-        city.setRuName(JsonPath.read(jsonCity, "$.local_names.en"));
+        city.setEnName(JsonPath.read(jsonCity, "name"));
         city.setCountry(object.getString("country"));
         city.setLat(object.getDouble("lat"));
         city.setLon(object.getDouble("lon"));
@@ -62,6 +68,6 @@ public class CityServiceImpl implements CityService {
 
     //Поиск города по названию из базы
     private City getCityFromDB(String city) {
-        return cityRepository.getCityByRuNameOrEnName(city, city);
+        return cityRepository.getCityByRuNameContainsIgnoreCaseOrEnNameContainsIgnoreCase(city, city);
     }
 }
