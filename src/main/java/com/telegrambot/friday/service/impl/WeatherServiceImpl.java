@@ -8,8 +8,6 @@ import com.telegrambot.friday.model.Weather;
 import com.telegrambot.friday.service.CityService;
 import com.telegrambot.friday.service.WeatherService;
 import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,9 +20,9 @@ import java.net.URL;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WeatherServiceImpl implements WeatherService {
     final CityService cityService;
-    @Value("${openapi.weather}")
+    @Value("${openweather.weather}")
     String url;
-    @Value("${openapi.token}")
+    @Value("${openweather.token}")
     String token;
     public WeatherServiceImpl(CityService cityService) {
         this.cityService = cityService;
@@ -32,14 +30,15 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public Weather getWeatherInfo(City city) {
-        url = url.replace("{lat}", String.valueOf(city.getLat()));
-        url = url.replace("{lon}", String.valueOf(city.getLon()));
-        url = url.replace("{API key}", token);
-        url = url.replace("{lang}", "ru");
+        String urlAddress = url.replace("{lat}", String.valueOf(city.getLat()));
+                urlAddress = urlAddress.replace("{lon}", String.valueOf(city.getLon()));
+                urlAddress = urlAddress.replace("{API key}", token);
+                urlAddress = urlAddress.replace("{lang}", "ru");
 
         try {
-            JsonNode weatherInfo = new ObjectMapper().readTree(new URL(url));
+            JsonNode weatherInfo = new ObjectMapper().readTree(new URL(urlAddress));
             String json = weatherInfo.toString();
+
             return getWeatherFromJson(json);
 
         } catch (Exception e) {

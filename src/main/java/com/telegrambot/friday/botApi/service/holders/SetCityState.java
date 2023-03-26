@@ -4,7 +4,6 @@ import com.telegrambot.friday.botApi.cache.UserCache;
 import com.telegrambot.friday.botApi.service.MessageGenerator;
 import com.telegrambot.friday.botApi.state.BotState;
 import com.telegrambot.friday.model.City;
-import com.telegrambot.friday.model.User;
 import com.telegrambot.friday.model.Weather;
 import com.telegrambot.friday.service.CityService;
 import com.telegrambot.friday.service.UserService;
@@ -59,7 +58,7 @@ public class SetCityState implements MessageHolder{
             System.out.println(city.toString());
 
             if (city != null) {
-//                userService.update(chatID, city);
+                userService.setCity(chatID, city);
                 Weather weather = weatherService.getWeatherInfo(city);
 
                 userCache.setBotState(userID, null);

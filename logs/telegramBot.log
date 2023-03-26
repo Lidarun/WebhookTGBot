@@ -20,3 +20,6 @@
 2023-03-25 20:11:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
 2023-03-25 20:11:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
 2023-03-25 20:11:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
+2023-03-26 11:01:55 DEBUG CityServiceImpl:47 - Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "cityInfo" is nullCity: Москва
+2023-03-26 12:23:04 DEBUG CityServiceImpl:50 - Server returned HTTP response code: 400 for URL: https://api.openweathermap.org/geo/1.0/direct?qMoscow}&limit=5&appid=097e7a36c584cdb3b0001619654e57d1City: Moscow
+2023-03-26 12:24:47 DEBUG CityServiceImpl:50 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: Бишкек

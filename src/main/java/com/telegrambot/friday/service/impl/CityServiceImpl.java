@@ -20,20 +20,19 @@ import java.net.URL;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CityServiceImpl implements CityService {
     final CityRepository cityRepository;
-    @Value("${openapi.city}")
-    String urlAddress;
+    @Value("${openweather.city}")
+    String url;
 
     public CityServiceImpl(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
-
 
     @Override//Поиск города
     public City getCityInfo(String cityName) {
         City city = getCityFromDB(cityName);
 
         if(city == null) {
-            urlAddress = urlAddress.replace("{city}", cityName);
+            String urlAddress = url.replace("{city}", cityName);
 
             try {
                 JsonNode cityInfo = new ObjectMapper().readTree(new URL(urlAddress));
@@ -48,7 +47,7 @@ public class CityServiceImpl implements CityService {
             }
         }
 
-        return null;
+        return city;
     }
 
     //Извлекаем данные города из JSON

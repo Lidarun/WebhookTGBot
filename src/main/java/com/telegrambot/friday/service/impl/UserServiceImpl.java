@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(long chatID, City city) {
+    public void setCity(long chatID, City city) {
         User user = repository.getUserByChatId(chatID);
         user.setCity(city);
         repository.save(user);
