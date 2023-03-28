@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommandNotSetState implements MessageHolder{
     UserCache userCache;
-    MessageGenerator generator;
+    final MessageGenerator generator;
 
     public CommandNotSetState(UserCache userCache, MessageGenerator generator) {
         this.userCache = userCache;

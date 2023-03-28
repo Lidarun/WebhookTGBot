@@ -46,7 +46,6 @@ public class CityServiceImpl implements CityService {
                 log.debug(e.getMessage() + "City: " + cityName);
             }
         }
-
         return city;
     }
 
@@ -61,12 +60,25 @@ public class CityServiceImpl implements CityService {
         city.setLat(object.getDouble("lat"));
         city.setLon(object.getDouble("lon"));
 
-        cityRepository.save(city);
+        saveWithCheck(city);
+
         return city;
     }
 
     //Поиск города по названию из базы
     private City getCityFromDB(String city) {
-        return cityRepository.getCityByRuNameContainsIgnoreCaseOrEnNameContainsIgnoreCase(city, city);
+        String city2 = city.replace("-", " ");
+        City cityFromDB = cityRepository
+                .getCityByRuNameContainsIgnoreCaseOrEnNameContainsIgnoreCase(city, city);
+        if (cityFromDB == null) cityFromDB = cityRepository
+                .getCityByRuNameContainsIgnoreCaseOrEnNameContainsIgnoreCase(city2, city2);
+
+        return cityFromDB;
+    }
+
+    private void saveWithCheck(City city) {
+        City cityFromDB = cityRepository
+                .getCityByRuNameContainsIgnoreCaseOrEnNameContainsIgnoreCase(city.getRuName(), city.getEnName());
+        if (cityFromDB == null) cityRepository.save(city);
     }
 }

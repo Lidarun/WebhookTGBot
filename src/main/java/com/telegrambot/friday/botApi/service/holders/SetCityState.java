@@ -53,9 +53,8 @@ public class SetCityState implements MessageHolder{
             return generator.generateMessage(chatID, "Введите название города!");
 
         } else {
-            System.out.println(userMessage);
             City city = cityService.getCityInfo(userMessage);
-            System.out.println(city.toString());
+            System.out.println(city);
 
             if (city != null) {
                 userService.setCity(chatID, city);
@@ -63,11 +62,11 @@ public class SetCityState implements MessageHolder{
 
                 userCache.setBotState(userID, null);
                 return generator.generateMessage(chatID, "Город установлен!\n\n" + weather.toString());
-
-            } else {
-                userCache.setBotState(userID, BotState.SET_CITY);
-                return generator.generateMessage(chatID, "Город не найден!");
             }
         }
+
+        userCache.setBotState(userID, BotState.SET_CITY);
+        return generator.generateMessage(chatID, "Город не найден! " +
+                "\nПроверьте правильность написанися города и повторите попытку");
     }
 }

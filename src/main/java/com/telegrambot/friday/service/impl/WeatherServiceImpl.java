@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.telegrambot.friday.model.City;
 import com.telegrambot.friday.model.Weather;
-import com.telegrambot.friday.service.CityService;
 import com.telegrambot.friday.service.WeatherService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -19,14 +18,10 @@ import java.net.URL;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WeatherServiceImpl implements WeatherService {
-    final CityService cityService;
     @Value("${openweather.weather}")
     String url;
     @Value("${openweather.token}")
     String token;
-    public WeatherServiceImpl(CityService cityService) {
-        this.cityService = cityService;
-    }
 
     @Override
     public Weather getWeatherInfo(City city) {
@@ -38,7 +33,6 @@ public class WeatherServiceImpl implements WeatherService {
         try {
             JsonNode weatherInfo = new ObjectMapper().readTree(new URL(urlAddress));
             String json = weatherInfo.toString();
-
             return getWeatherFromJson(json);
 
         } catch (Exception e) {
@@ -51,15 +45,62 @@ public class WeatherServiceImpl implements WeatherService {
     private Weather getWeatherFromJson(String jsonWeather) {
         Weather weather = new Weather();
 
-        weather.setWeatherMain(JsonPath.read(jsonWeather,
-                        "$.weather[0].description"));
-        weather.setCountry(JsonPath.read(jsonWeather, "$.sys.country"));
+        try {
+            weather.setWeatherMain(JsonPath.read(jsonWeather,
+                    "$.weather[0].description"));
+            weather.setCountry(JsonPath.read(jsonWeather, "$.sys.country"));
+            weather.setCity(JsonPath.read(jsonWeather, "$.name"));
+            weather.setTemp(JsonPath.read(jsonWeather, "$.main.temp"));
 
-        weather.setCity(JsonPath.read(jsonWeather, "$.name"));
-        weather.setTemp(JsonPath.read(jsonWeather, "$.main.temp"));
-        weather.setWindSpeed(JsonPath.read(jsonWeather, "$.wind.speed"));
+            if (JsonPath.read(jsonWeather, "$.wind.speed") instanceof Integer) {
+                int speed = JsonPath.read(jsonWeather, "$.wind.speed");
+                weather.setWindSpeed(speed);
+            }else {
+                weather.setWindSpeed(JsonPath.read(jsonWeather, "$.wind.speed"));
+            }
 
-        return weather;
+            return generateEmoji(weather);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return null;
     }
 
+    private Weather generateEmoji(Weather weather) {
+        String weatherDescription = weather.getWeatherMain().toLowerCase();
+        System.out.println(weatherDescription + " " + weatherDescription.length());
+        String emoji;
+        switch (weatherDescription) {
+            case "ясно":
+                emoji = "☀️";
+                break;
+
+            case "небольшая облачность":
+            case "переменная облачность":
+            case "облачно с прояснениями":
+                emoji = "⛅️";
+                break;
+
+            case "облачно":
+            case "пасмурно":
+                emoji = "☁️";
+                break;
+
+            case "небольшой дождь":
+                emoji = "\uD83C\uDF26";
+                break;
+            case "дождь":
+                emoji = "\uD83C\uDF27";
+                break;
+            case "снег":
+                emoji = "\uD83C\uDF28";
+                break;
+            default:
+                emoji = "\uD83E\uDE90";
+        }
+
+        weather.setEmoji(emoji);
+        return weather;
+    }
 }

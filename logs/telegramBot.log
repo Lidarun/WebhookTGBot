@@ -1,25 +1,13 @@
-2023-03-25 16:25:47 DEBUG CityServiceImpl:45 - No results for path: $['local_names']['en']City: Ош
-2023-03-25 16:26:59 DEBUG CityServiceImpl:45 - No results for path: $['local_names']['en']City: London
-2023-03-25 17:27:03 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: Paris
-2023-03-25 17:27:10 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 17:27:37 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: Питер
-2023-03-25 17:27:52 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: Бишкек
-2023-03-25 17:29:08 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: Paris
-2023-03-25 17:30:06 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: Ош
-2023-03-25 17:34:29 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: париж
-2023-03-25 17:36:16 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['en']City: Москва
-2023-03-25 19:58:08 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 19:59:34 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:01:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:01:41 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:02:20 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: москва
-2023-03-25 20:03:34 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:06:03 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:07:26 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:11:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:11:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:11:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-25 20:11:33 DEBUG CityServiceImpl:47 - No results for path: $['local_names']['en']City: Париж
-2023-03-26 11:01:55 DEBUG CityServiceImpl:47 - Cannot invoke "com.fasterxml.jackson.databind.JsonNode.toString()" because "cityInfo" is nullCity: Москва
-2023-03-26 12:23:04 DEBUG CityServiceImpl:50 - Server returned HTTP response code: 400 for URL: https://api.openweathermap.org/geo/1.0/direct?qMoscow}&limit=5&appid=097e7a36c584cdb3b0001619654e57d1City: Moscow
-2023-03-26 12:24:47 DEBUG CityServiceImpl:50 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: Бишкек
+
+2023-03-28 11:06:55 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['ru']City: /nur
+2023-03-28 11:07:01 DEBUG CityServiceImpl:46 - No results for path: $['local_names']['ru']City: /nur
+2023-03-28 13:58:03 DEBUG CityServiceImpl:46 - query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2City: New-York
+2023-03-28 14:08:15 DEBUG CityServiceImpl:46 - Illegal character in URLCity: Nur, [28.03.2023 14:02]
+/setcity
+
+Nur, [28.03.2023 14:02]
+New-York
+2023-03-28 14:08:45 DEBUG CityServiceImpl:46 - query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2City: New-York
+2023-03-28 14:10:27 DEBUG CityServiceImpl:46 - query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2City: New-York
+2023-03-28 14:11:11 DEBUG CityServiceImpl:46 - query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2City: New-York
+2023-03-28 14:21:38 DEBUG CityServiceImpl:55 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: City city

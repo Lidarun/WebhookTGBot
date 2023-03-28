@@ -2,9 +2,7 @@ package com.telegrambot.friday.service.impl;
 
 import com.telegrambot.friday.model.City;
 import com.telegrambot.friday.model.User;
-import com.telegrambot.friday.model.repository.CityRepository;
 import com.telegrambot.friday.model.repository.UserRepository;
-import com.telegrambot.friday.service.CityService;
 import com.telegrambot.friday.service.UserService;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -14,10 +12,9 @@ import java.sql.Date;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository repository;
-    private final CityService cityService;
-    public UserServiceImpl(UserRepository repository, CityService cityService) {
+
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
-        this.cityService = cityService;
     }
 
     @Override
@@ -31,7 +28,7 @@ public class UserServiceImpl implements UserService {
             user.setLName(message.getChat().getLastName());
             user.setUName(message.getChat().getUserName());
             user.setRegisterDate(new Date(System.currentTimeMillis()));
-            user.setActive(false);
+            user.setActive(true);
 
             repository.save(user);
         }

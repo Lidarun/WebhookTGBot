@@ -13,9 +13,9 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StartState implements MessageHolder {
-    UserCache userCache;
-    MessageGenerator generator;
-    UserService userService;
+    final UserCache userCache;
+    final MessageGenerator generator;
+    final UserService userService;
 
     public StartState(UserCache userCache, MessageGenerator generator, UserService userService) {
         this.userCache = userCache;

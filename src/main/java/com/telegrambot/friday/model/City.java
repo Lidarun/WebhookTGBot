@@ -1,6 +1,5 @@
 package com.telegrambot.friday.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,9 +11,7 @@ public class City {
     @Column(name = "city_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @JsonProperty("ru")
     String ruName;
-    @JsonProperty("name")
     String enName;
     String country;
     double lat;

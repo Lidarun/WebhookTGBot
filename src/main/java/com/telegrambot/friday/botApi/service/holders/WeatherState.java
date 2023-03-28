@@ -4,7 +4,6 @@ import com.telegrambot.friday.botApi.cache.UserCache;
 import com.telegrambot.friday.botApi.service.MessageGenerator;
 import com.telegrambot.friday.botApi.state.BotState;
 import com.telegrambot.friday.model.City;
-import com.telegrambot.friday.model.User;
 import com.telegrambot.friday.model.Weather;
 import com.telegrambot.friday.service.UserService;
 import com.telegrambot.friday.service.WeatherService;
@@ -17,9 +16,9 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WeatherState implements MessageHolder {
-    WeatherService weatherService;
-    UserService userService;
-    MessageGenerator generator;
+    final WeatherService weatherService;
+    final UserService userService;
+    final MessageGenerator generator;
     UserCache userCache;
 
     public WeatherState(WeatherService weatherService, UserService userService,
@@ -50,8 +49,11 @@ public class WeatherState implements MessageHolder {
         if (city != null) {
             Weather weather = weatherService.getWeatherInfo(city);
 
-            if (weather != null) return generator
-                    .generateMessage(chatID, weather.toString());
+            if (weather == null) return generator
+                    .generateMessage(chatID, "Извините, данных по вашему городу не найдено!");
+
+            return generator
+                    .generateMessage(chatID, String.valueOf(weather));
         }
 
         return generator.generateMessage(chatID, "Установите город! /setcity");
