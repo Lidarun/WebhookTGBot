@@ -1,6 +1,7 @@
 package com.telegrambot.friday.botApi.config;
 
 import com.telegrambot.friday.botApi.controller.Friday;
+import com.telegrambot.friday.botApi.service.CallbackQueryHandler;
 import com.telegrambot.friday.botApi.service.MessageHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +21,8 @@ public class SpringConfig {
     }
 
     @Bean
-    public Friday springFridayConfig(SetWebhook setWebhook, MessageHandler handler) {
-        Friday friday = new Friday(setWebhook, handler);
+    public Friday springFridayConfig(SetWebhook setWebhook, MessageHandler handler, CallbackQueryHandler queryHandler) {
+        Friday friday = new Friday(setWebhook, handler, queryHandler);
 
         friday.setBotPath(config.getWebhookPath());
         friday.setBotToken(config.getBotToken());

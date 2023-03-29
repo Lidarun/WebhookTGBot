@@ -26,7 +26,6 @@ public class  MessageHandler {
         long userID = message.getFrom().getId();
         BotState botState = userCache.getBotState(userID);
 
-        System.out.println("1." + botState);
         if(botState == null) {
             switch (userMessage) {
                 case "/start" -> botState = BotState.START;
@@ -35,8 +34,6 @@ public class  MessageHandler {
                 default -> botState = BotState.COMMAND_NOT_SET;
             }
         }
-
-        System.out.println("2." + botState);
         userCache.setBotState(userID, botState);
 
         return context.getMessageByBotState(botState, message);

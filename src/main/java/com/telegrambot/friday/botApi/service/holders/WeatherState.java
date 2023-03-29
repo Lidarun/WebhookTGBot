@@ -12,6 +12,11 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -44,18 +49,57 @@ public class WeatherState implements MessageHolder {
         long chatID = message.getChatId();
         userCache.setBotState(userID, null);
 
+        SendMessage msgToUser;
+
         City city = userService.getCityFromUserData(chatID);
 
         if (city != null) {
             Weather weather = weatherService.getWeatherInfo(city);
 
-            if (weather == null) return generator
-                    .generateMessage(chatID, "Извините, данных по вашему городу не найдено!");
+            if (weather == null) {
+                msgToUser = generator
+                        .generateMessage(chatID, "Извините, данных по вашему городу не найдено!");
+                msgToUser.setReplyMarkup(getMessageButtons());
 
-            return generator
+                return msgToUser;
+            }
+
+            msgToUser = generator
                     .generateMessage(chatID, String.valueOf(weather));
+            msgToUser.setReplyMarkup(getMessageButtons());
+            return msgToUser;
         }
 
-        return generator.generateMessage(chatID, "Установите город! /setcity");
+        msgToUser = generator.generateMessage(chatID, "Установите город! /setcity");
+        msgToUser.setReplyMarkup(getMessageButtons());
+        return msgToUser;
+    }
+
+    private InlineKeyboardMarkup getMessageButtons() {
+        InlineKeyboardMarkup replyKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton setCityButton = new InlineKeyboardButton();
+        InlineKeyboardButton getLocationButton = new InlineKeyboardButton();
+
+        setCityButton.setCallbackData("setNewCity");
+        setCityButton.setText("Установить новый город!");
+
+        getLocationButton.setCallbackData("getUserLocation");
+        getLocationButton.setText("Определить по геолокации!");
+
+        List<InlineKeyboardButton> row1 = new ArrayList<>();
+        row1.add(setCityButton);
+
+        List<InlineKeyboardButton> row2 = new ArrayList<>();
+        row2.add(getLocationButton);
+
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+        rowList.add(row1);
+        rowList.add(row2);
+
+        replyKeyboardMarkup.setKeyboard(rowList);
+
+        return replyKeyboardMarkup;
     }
 }

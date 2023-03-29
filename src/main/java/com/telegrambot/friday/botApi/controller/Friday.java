@@ -1,5 +1,6 @@
 package com.telegrambot.friday.botApi.controller;
 
+import com.telegrambot.friday.botApi.service.CallbackQueryHandler;
 import com.telegrambot.friday.botApi.service.MessageHandler;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,12 +8,9 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 
 @Slf4j
@@ -25,11 +23,12 @@ public class Friday extends SpringWebhookBot {
     String botToken;
 
     MessageHandler messageHandler;
-//    CallbackQueryHandler callbackQueryHandler;
+    CallbackQueryHandler callbackQueryHandler;
 
-    public Friday(SetWebhook setWebhook, MessageHandler messageHandler) {
+    public Friday(SetWebhook setWebhook, MessageHandler messageHandler, CallbackQueryHandler queryHandler) {
         super(setWebhook);
         this.messageHandler = messageHandler;
+        this.callbackQueryHandler = queryHandler;
     }
 
     @Override
@@ -45,13 +44,13 @@ public class Friday extends SpringWebhookBot {
 
     private BotApiMethod<?> handleUpdate(Update update) {
         Message message = update.getMessage();
+
         if (message != null && message.hasText()) {
             return messageHandler.replyMessage(update.getMessage());
         }
 
         if (update.hasCallbackQuery()) {
-            CallbackQuery callbackQuery = update.getCallbackQuery();
-            return null; // CALLBACK later
+            return callbackQueryHandler.replyMessage(update.getCallbackQuery());
         }
 
         return null;
