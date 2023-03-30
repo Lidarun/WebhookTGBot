@@ -11,3 +11,6 @@ New-York
 2023-03-28 14:10:27 DEBUG CityServiceImpl:46 - query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2City: New-York
 2023-03-28 14:11:11 DEBUG CityServiceImpl:46 - query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2City: New-York
 2023-03-28 14:21:38 DEBUG CityServiceImpl:55 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: City city
+2023-03-29 20:28:36 DEBUG CityServiceImpl:46 - Illegal character in URLCity: 🗺  Нью-Йорк(US)   🗓 29 мар. 2023 г.
+ ☀️Ясно
+ 🌡 8,0°C       🌬 4,1 м/с
