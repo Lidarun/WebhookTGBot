@@ -1,6 +1,5 @@
 package com.telegrambot.friday.botApi.service;
 
-import com.telegrambot.friday.botApi.service.holders.MessageHolder;
 import com.telegrambot.friday.botApi.state.BotState;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

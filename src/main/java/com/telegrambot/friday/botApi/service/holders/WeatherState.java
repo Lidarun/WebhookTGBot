@@ -2,6 +2,7 @@ package com.telegrambot.friday.botApi.service.holders;
 
 import com.telegrambot.friday.botApi.cache.UserCache;
 import com.telegrambot.friday.botApi.service.MessageGenerator;
+import com.telegrambot.friday.botApi.service.MessageHolder;
 import com.telegrambot.friday.botApi.state.BotState;
 import com.telegrambot.friday.model.City;
 import com.telegrambot.friday.model.Weather;

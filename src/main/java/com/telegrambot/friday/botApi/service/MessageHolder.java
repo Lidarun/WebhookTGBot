@@ -1,4 +1,4 @@
-package com.telegrambot.friday.botApi.service.holders;
+package com.telegrambot.friday.botApi.service;
 
 import com.telegrambot.friday.botApi.state.BotState;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
