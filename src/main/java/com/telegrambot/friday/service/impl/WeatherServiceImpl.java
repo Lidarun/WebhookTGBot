@@ -5,12 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.telegrambot.friday.model.City;
 import com.telegrambot.friday.model.Weather;
+import com.telegrambot.friday.service.CityService;
+import com.telegrambot.friday.service.UserService;
 import com.telegrambot.friday.service.WeatherService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.Location;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.net.URL;
 
@@ -18,17 +22,23 @@ import java.net.URL;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WeatherServiceImpl implements WeatherService {
+    final CityService cityService;
+    final UserService userService;
     @Value("${openweather.weather}")
     String url;
     @Value("${openweather.token}")
     String token;
+
+    public WeatherServiceImpl(CityService cityService, UserService userService) {
+        this.cityService = cityService;
+        this.userService = userService;
+    }
 
     @Override
     public Weather getWeatherInfo(City city) {
         String urlAddress = url.replace("{lat}", String.valueOf(city.getLat()));
                 urlAddress = urlAddress.replace("{lon}", String.valueOf(city.getLon()));
                 urlAddress = urlAddress.replace("{API key}", token);
-                urlAddress = urlAddress.replace("{lang}", "ru");
 
         try {
             JsonNode weatherInfo = new ObjectMapper().readTree(new URL(urlAddress));
@@ -37,6 +47,31 @@ public class WeatherServiceImpl implements WeatherService {
 
         } catch (Exception e) {
             log.debug(e.getMessage() + "City: " + city);
+        }
+
+        return null;
+    }
+
+    @Override
+    public Weather getWeatherInfoByLocation(Message message) {
+        long chatID = message.getChatId();
+        Location location = message.getLocation();
+        String urlAddress = url.replace("{lat}", String.valueOf(location.getLatitude()));
+        urlAddress = urlAddress.replace("{lon}", String.valueOf(location.getLongitude()));
+        urlAddress = urlAddress.replace("{API key}", token);
+
+        try {
+            JsonNode weatherInfo = new ObjectMapper().readTree(new URL(urlAddress));
+            String json = weatherInfo.toString();
+            Weather weather = getWeatherFromJson(json);
+
+            //Устанавлиеваем стандарный город для юзера
+            userService.setCity(chatID, cityService.getCityInfo(weather.getCity()));
+
+            return weather;
+
+        } catch (Exception e) {
+            log.debug(e.getMessage() + "Location: " + location);
         }
 
         return null;

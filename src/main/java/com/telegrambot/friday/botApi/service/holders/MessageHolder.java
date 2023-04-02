@@ -1,6 +1,6 @@
 package com.telegrambot.friday.botApi.service.holders;
 
-import com.telegrambot.friday.botApi.state.BotState;
+import com.telegrambot.friday.botApi.config.BotState;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 

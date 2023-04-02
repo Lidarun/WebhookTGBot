@@ -1,7 +1,7 @@
 package com.telegrambot.friday.botApi.service;
 
+import com.telegrambot.friday.botApi.config.BotState;
 import com.telegrambot.friday.botApi.service.holders.MessageHolder;
-import com.telegrambot.friday.botApi.state.BotState;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;

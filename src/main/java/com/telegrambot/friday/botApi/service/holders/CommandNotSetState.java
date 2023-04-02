@@ -2,7 +2,7 @@ package com.telegrambot.friday.botApi.service.holders;
 
 import com.telegrambot.friday.botApi.cache.UserCache;
 import com.telegrambot.friday.botApi.service.MessageGenerator;
-import com.telegrambot.friday.botApi.state.BotState;
+import com.telegrambot.friday.botApi.config.BotState;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommandNotSetState implements MessageHolder{
+public class CommandNotSetState implements MessageHolder {
     UserCache userCache;
     final MessageGenerator generator;
 
