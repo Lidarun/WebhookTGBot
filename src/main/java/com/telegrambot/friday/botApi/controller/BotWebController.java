@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@RestController
+@RestController("/")
 @AllArgsConstructor
 public class BotWebController {
     private final Friday friday;
 
-    @PostMapping("/")
+    @PostMapping
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
         return friday.onWebhookUpdateReceived(update);
     }

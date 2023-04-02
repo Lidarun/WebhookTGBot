@@ -20,7 +20,6 @@ public class LocationMenuService {
     private SendMessage createMessageWithKeyboard(long chatID, String message,
                                                   ReplyKeyboardMarkup replyKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
-        sendMessage.enableMarkdownV2(true);
         sendMessage.enableNotification();
         sendMessage.setChatId(chatID);
         sendMessage.setText(message);
@@ -32,6 +31,7 @@ public class LocationMenuService {
 
     private ReplyKeyboardMarkup getLocationMenuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setSelective(true);
 
@@ -40,7 +40,7 @@ public class LocationMenuService {
         KeyboardRow row1 = new KeyboardRow();
         KeyboardButton locationButton = new KeyboardButton();
 
-        locationButton.setText("Определить местоположение");
+        locationButton.setText("Поделиться местоположением");
         locationButton.setRequestLocation(true);
 
         row1.add(locationButton);

@@ -1,6 +1,7 @@
 package com.telegrambot.friday.botApi.controller;
 
 import com.telegrambot.friday.botApi.service.CallbackQueryHandler;
+import com.telegrambot.friday.botApi.service.LocationHandler;
 import com.telegrambot.friday.botApi.service.MessageHandler;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,11 +25,14 @@ public class Friday extends SpringWebhookBot {
 
     MessageHandler messageHandler;
     CallbackQueryHandler callbackQueryHandler;
+    LocationHandler locationHandler;
 
-    public Friday(SetWebhook setWebhook, MessageHandler messageHandler, CallbackQueryHandler queryHandler) {
+    public Friday(SetWebhook setWebhook, MessageHandler messageHandler,
+                  CallbackQueryHandler queryHandler, LocationHandler locationHandler) {
         super(setWebhook);
         this.messageHandler = messageHandler;
         this.callbackQueryHandler = queryHandler;
+        this.locationHandler = locationHandler;
     }
 
     @Override
@@ -47,6 +51,10 @@ public class Friday extends SpringWebhookBot {
 
         if (message != null && message.hasText()) {
             return messageHandler.replyMessage(update.getMessage());
+        }
+
+        if (message != null && message.hasLocation()) {
+            return locationHandler.replyMessage(update.getMessage());
         }
 
         if (update.hasCallbackQuery()) {

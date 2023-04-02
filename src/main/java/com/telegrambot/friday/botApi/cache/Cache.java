@@ -1,6 +1,6 @@
 package com.telegrambot.friday.botApi.cache;
 
-import com.telegrambot.friday.botApi.state.BotState;
+import com.telegrambot.friday.botApi.config.BotState;
 
 public interface Cache {
     void setBotState(long userID, BotState botState);

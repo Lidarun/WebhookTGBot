@@ -1,7 +1,7 @@
 package com.telegrambot.friday.botApi.service.menu;
 
-import com.telegrambot.friday.botApi.service.MessageHolder;
-import com.telegrambot.friday.botApi.state.BotState;
+import com.telegrambot.friday.botApi.service.holders.MessageHolder;
+import com.telegrambot.friday.botApi.config.BotState;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ public class LocationMenu implements MessageHolder {
 
     @Override
     public SendMessage handle(Message message) {
-        return locationMenuService.getMenu(message.getChatId(), "Location");
+        return locationMenuService.getMenu(message.getChatId(), "Ожидание...");
     }
 
     @Override

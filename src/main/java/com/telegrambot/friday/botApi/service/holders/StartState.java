@@ -2,8 +2,7 @@ package com.telegrambot.friday.botApi.service.holders;
 
 import com.telegrambot.friday.botApi.cache.UserCache;
 import com.telegrambot.friday.botApi.service.MessageGenerator;
-import com.telegrambot.friday.botApi.service.MessageHolder;
-import com.telegrambot.friday.botApi.state.BotState;
+import com.telegrambot.friday.botApi.config.BotState;
 import com.telegrambot.friday.service.UserService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

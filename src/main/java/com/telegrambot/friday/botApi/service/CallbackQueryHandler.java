@@ -1,18 +1,12 @@
 package com.telegrambot.friday.botApi.service;
 
 import com.telegrambot.friday.botApi.cache.UserCache;
-import com.telegrambot.friday.botApi.state.BotState;
+import com.telegrambot.friday.botApi.config.BotState;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)

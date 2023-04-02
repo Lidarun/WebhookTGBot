@@ -1,3 +1,6 @@
 
 2023-03-30 19:13:07 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /weather
 2023-03-30 19:20:27 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /start
+2023-04-02 17:47:03 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /start
+2023-04-02 17:47:09 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /weather
+2023-04-02 17:47:21 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /start
