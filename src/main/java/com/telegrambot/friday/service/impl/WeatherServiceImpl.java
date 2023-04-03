@@ -87,12 +87,9 @@ public class WeatherServiceImpl implements WeatherService {
             weather.setCity(JsonPath.read(jsonWeather, "$.name"));
             weather.setTemp(JsonPath.read(jsonWeather, "$.main.temp"));
 
-            if (JsonPath.read(jsonWeather, "$.wind.speed") instanceof Integer) {
-                int speed = JsonPath.read(jsonWeather, "$.wind.speed");
-                weather.setWindSpeed(speed);
-            }else {
-                weather.setWindSpeed(JsonPath.read(jsonWeather, "$.wind.speed"));
-            }
+            String windSpeed = JsonPath.read(jsonWeather, "$.wind.speed").toString();
+
+            weather.setWindSpeed(Double.parseDouble(windSpeed));
 
             return generateEmoji(weather);
 
@@ -104,8 +101,8 @@ public class WeatherServiceImpl implements WeatherService {
 
     private Weather generateEmoji(Weather weather) {
         String weatherDescription = weather.getWeatherMain().toLowerCase();
-        System.out.println(weatherDescription + " " + weatherDescription.length());
         String emoji;
+
         switch (weatherDescription) {
             case "ясно":
                 emoji = "☀️";
@@ -123,11 +120,13 @@ public class WeatherServiceImpl implements WeatherService {
                 break;
 
             case "небольшой дождь":
+            case "небольшой проливаной дождь":
                 emoji = "\uD83C\uDF26";
                 break;
             case "дождь":
                 emoji = "\uD83C\uDF27";
                 break;
+            case "небольшой снег":
             case "снег":
                 emoji = "\uD83C\uDF28";
                 break;

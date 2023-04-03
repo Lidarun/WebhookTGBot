@@ -31,6 +31,7 @@ public class LocationMenuService {
 
     private ReplyKeyboardMarkup getLocationMenuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setIsPersistent(false);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setSelective(true);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.sql.Date;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,13 +44,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByChatID(long chatID) {
-        return repository.getUserByChatId(chatID);
+        return Optional.ofNullable(repository.getUserByChatId(chatID)).orElse(null);
     }
 
     @Override
     public City getCityFromUserData(long chatId) {
         User user = repository.getUserByChatId(chatId);
+        if (user != null) return user.getCity();
 
-        return user.getCity();
+        return null;
     }
 }
