@@ -40,6 +40,7 @@ public class CityServiceImpl implements CityService {
                 json = json.substring(1, json.length() - 1);
                 city = getCityFromJson(json);
 
+                saveWithCheck(city);
                 return city;
 
             } catch (Exception e) {
@@ -59,8 +60,6 @@ public class CityServiceImpl implements CityService {
         city.setCountry(object.getString("country"));
         city.setLat(object.getDouble("lat"));
         city.setLon(object.getDouble("lon"));
-
-        saveWithCheck(city);
 
         return city;
     }

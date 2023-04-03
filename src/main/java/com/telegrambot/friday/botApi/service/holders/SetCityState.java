@@ -5,6 +5,7 @@ import com.telegrambot.friday.botApi.service.MessageGenerator;
 import com.telegrambot.friday.botApi.config.BotState;
 import com.telegrambot.friday.botApi.service.buttons.WeatherButtons;
 import com.telegrambot.friday.model.City;
+import com.telegrambot.friday.model.User;
 import com.telegrambot.friday.model.Weather;
 import com.telegrambot.friday.service.CityService;
 import com.telegrambot.friday.service.UserService;
@@ -49,7 +50,6 @@ public class SetCityState implements MessageHolder {
     private SendMessage generateMessage(Message message) {
         long userID = message.getFrom().getId();
         long chatID = message.getChatId();
-
         String userMessage = message.getText();
 
         if (userMessage.equals("/setcity")) {
@@ -59,10 +59,16 @@ public class SetCityState implements MessageHolder {
             City city = cityService.getCityInfo(userMessage);
 
             if (city != null) {
-                userService.setCity(chatID, city);
-                Weather weather = weatherService.getWeatherInfo(city);
 
+                Weather weather = weatherService.getWeatherInfo(city);
+                User user = userService.getUserByChatID(chatID);
                 userCache.setBotState(userID, null);
+
+                if (user == null) return generator.generateMessage(chatID, "Чтобы я мог установить стандартный город для вас," +
+                        " пожалуйста воспользуйтесь командой /start. \nПогода по вашему запросу:\n" + weather.toString());
+
+                userService.setCity(chatID, city);
+
                 SendMessage messageToUser = generator
                         .generateMessage(chatID, "Город установлен!\n\n" + weather.toString());
                 messageToUser.setReplyMarkup(buttons.getMessageButtons());
@@ -70,8 +76,8 @@ public class SetCityState implements MessageHolder {
             }
         }
 
-        userCache.setBotState(userID, BotState.SET_CITY);
-        return generator.generateMessage(chatID, "Город не найден! " +
+        userCache.setBotState(userID, null);
+        return generator.generateMessage(chatID, "Извините, город не найден! " +
                 "\nПроверьте правильность написанися города и повторите попытку");
     }
 }
