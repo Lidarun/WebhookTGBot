@@ -6,3 +6,5 @@
 2023-04-02 17:47:21 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /start
 2023-04-02 20:21:47 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /start
 2023-04-02 20:49:44 DEBUG CityServiceImpl:46 - Missing property in path $['local_names']City: /start
+2023-05-25 17:39:58 DEBUG CityServiceImpl:47 - Connection timed out: connectCity: Chikago
+2023-05-25 17:48:53 DEBUG CityServiceImpl:47 - A JSONObject text must begin with '{' at 0 [character 1 line 1]City: Париж

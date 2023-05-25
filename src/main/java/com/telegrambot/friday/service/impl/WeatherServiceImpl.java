@@ -43,6 +43,7 @@ public class WeatherServiceImpl implements WeatherService {
         try {
             JsonNode weatherInfo = new ObjectMapper().readTree(new URL(urlAddress));
             String json = weatherInfo.toString();
+            // System.out.println("JSON: "+ json);
             return getWeatherFromJson(json);
 
         } catch (Exception e) {
